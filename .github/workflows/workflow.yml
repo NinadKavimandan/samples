@@ -39,7 +39,7 @@ jobs:
       uses: azure/webapps-deploy@v1
       with:
         app-name: anchauhLinuxWebApp
-        package: ./publish
+        package: publish
 
     - name: logout
       run: |
