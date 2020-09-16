@@ -15,6 +15,12 @@ jobs:
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_GITHUB_SECRET }}
+        
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.x
+
     - name: Install dependencies
       run: dotnet restore dotnetcorewebapp/aspnet-core-dotnet-core
     
@@ -22,7 +28,7 @@ jobs:
       run: dotnet build dotnetcorewebapp/aspnet-core-dotnet-core --configuration Release --no-restore
     
     - name: Publish artifact
-      run: dotnet publish dotnetcorewebapp/aspnet-core-dotnet-core --configuration Release --no-build --output dotnetcorewebapp/aspnet-core-dotnet-core/publish
+      run: dotnet publish dotnetcorewebapp/aspnet-core-dotnet-core --configuration Release --no-build --output ./publish
     
     - uses: azure/appservice-settings@v1
       with:
@@ -33,7 +39,7 @@ jobs:
       uses: azure/webapps-deploy@v1
       with:
         app-name: anchauhLinuxWebApp
-        package: dotnetcorewebapp/aspnet-core-dotnet-core/publish
+        package: ./publish
 
     - name: logout
       run: |
